@@ -5,6 +5,7 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import NavBar from "./Components/NavBar";
 import VechicleEntry from "./Components/VehicleEntryComponents/VechicleEntry";
 import Weighbridge from "./Components/Weighbridge/Weighbridge";
+import Index from "./Components/Admin/index.jsx";
 
 const routerProvider = createBrowserRouter([
   {
@@ -15,13 +16,14 @@ const routerProvider = createBrowserRouter([
       { path: "/weigh", element: <Weighbridge /> },
       { path: "/projects", element: <div>Projects Page</div> },
       { path: "/consultation", element: <App /> },
+      { path: "/admin", element: <Index /> },
     ],
   },
 ]);
 
 function App() {
   return (
-    <div className="h-full w-full flex flex-col items-center gap-7">
+    <div className="h-full w-full flex flex-col items-center gap-7 bg-gray-50">
       <NavBar />
       <Outlet />
       {/* <Footer /> */}

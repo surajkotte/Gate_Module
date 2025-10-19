@@ -46,7 +46,7 @@ const useWeighBridgeHooks = () => {
         console.error("Failed to fetch vehicle entries");
       }
     };
-    fetchData();
+    //fetchData();
   }, []);
   return {
     setCurrentPage,

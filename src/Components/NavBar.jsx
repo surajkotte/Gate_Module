@@ -74,7 +74,7 @@ const ExpenseNavBar = () => {
           </button>
         </Link>
 
-        <Link to="/settings">
+        <Link to="/admin">
           <button
             onClick={() => setActiveTab("settings")}
             className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
@@ -84,7 +84,7 @@ const ExpenseNavBar = () => {
             }`}
           >
             <Settings className="inline h-4 w-4 mr-2" />
-            Settings
+            Admin
           </button>
         </Link>
       </div>

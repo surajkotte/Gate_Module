@@ -9,12 +9,27 @@ export const saveVehicleEntries = async (data) => {
       },
       body: JSON.stringify(data),
     });
-
     const result = await response.json();
     return result;
   } catch (error) {
     console.error("Error saving vehicle entries:", error.message);
     throw error;
+  }
+};
+
+export const getVehicleEntryConfig = async ({ type }) => {
+  try {
+    const response = await fetch(`${apiUrl}/config/${type}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching vehicle entry config:", error.message);
+    throw { messageType: "E", message: error.message };
   }
 };
 

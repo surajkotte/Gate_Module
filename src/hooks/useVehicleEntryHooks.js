@@ -1,35 +1,16 @@
-import React, { useState } from "react";
-import { saveVehicleEntries } from "../API/api";
-import { set } from "date-fns/set";
-
+import { getVehicleEntryConfig } from "../API/api.js";
 const useVehicleEntryHooks = () => {
-  const [formData, setFormData] = useState({
-    vehicleNo: "",
-    transporterName: "",
-    driverName: "",
-    licenseNumber: "",
-    inDate: "",
-    lrNumber: "",
-    lrDate: "",
-    comments: "",
-    purchaseOrders: [""],
-  });
-  const handleInputChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
-  };
-  const saveEntries = async (data) => {
-    const response = await saveVehicleEntries(data);
-    if (response.messageType === "S") {
-      console.log("Vehicle entry saved successfully:", response);
-    } else {
-      console.error("Failed to save vehicle entry");
+  const getConfig = async (type) => {
+    try {
+      const response = await getVehicleEntryConfig({ type });
+      return response;
+    } catch (error) {
+      console.error("Error in getConfig:", error);
+      return { messageType: "E", message: error.message };
     }
   };
   return {
-    saveEntries,
-    handleInputChange,
-    setFormData,
-    formData,
+    getConfig,
   };
 };
 
