@@ -26,7 +26,7 @@ const iconMap = {
   FileText,
   Weight,
 };
-const VehicleWithPOInputForm = ({ onSaveClick, onSubmitClick }) => {
+const VehicleWithoutPOInputForm = ({ onSaveClick, onSubmitClick }) => {
   const [formData, setFormData] = useState("");
   const { getConfig } = useVehicleEntryHooks();
   const handleInputChange = (fieldName, value) => {
@@ -79,7 +79,7 @@ const VehicleWithPOInputForm = ({ onSaveClick, onSubmitClick }) => {
 
   useEffect(() => {
     const fetchConfig = async () => {
-      const config = await getConfig("vehicle_with_po");
+      const config = await getConfig("vehicle_without_po");
       if (config.messageType === "S") {
         console.log("Fetched vehicle_with_po config:", config);
         setFormData({
@@ -111,7 +111,7 @@ const VehicleWithPOInputForm = ({ onSaveClick, onSubmitClick }) => {
         <div className="flex gap-3">
           <Button
             variant="secondary"
-            onClick={() => onSaveClick(formData, "vehicle_with_po")}
+            onClick={() => onSaveClick(formData, "vehicle_without_po")}
             className="gap-2"
           >
             <Save className="h-4 w-4" />
@@ -120,7 +120,7 @@ const VehicleWithPOInputForm = ({ onSaveClick, onSubmitClick }) => {
           <Button
             className="gap-2"
             variant="default"
-            onClick={() => onSubmitClick(formData, "vehicle_with_po")}
+            onClick={() => onSubmitClick(formData, "vehicle_without_po")}
           >
             <Send className="h-4 w-4" />
             Submit
@@ -129,7 +129,7 @@ const VehicleWithPOInputForm = ({ onSaveClick, onSubmitClick }) => {
       </div>
       <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
         <p className="text-blue-700 text-sm">
-          For loaded vehicles coming in with Purchase Order
+          For loaded vehicles without Purchase Order
         </p>
       </div>
       <div className="flex items-center mt-2 gap-2 p-2">
@@ -226,4 +226,4 @@ const VehicleWithPOInputForm = ({ onSaveClick, onSubmitClick }) => {
   );
 };
 
-export default VehicleWithPOInputForm;
+export default VehicleWithoutPOInputForm;

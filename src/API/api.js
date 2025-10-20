@@ -1,13 +1,13 @@
 const apiUrl = import.meta.env.VITE_SERVER_URL;
 
-export const saveVehicleEntries = async (data) => {
+export const saveVehicleEntries = async (data, type) => {
   try {
-    const response = await fetch(`${apiUrl}/entries`, {
+    const response = await fetch(`${apiUrl}/entry/save`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ data, type }),
     });
     const result = await response.json();
     return result;

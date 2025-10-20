@@ -115,7 +115,6 @@ export const FieldEditorDialog = ({ open, onOpenChange, field, onSave }) => {
                   setFormData({ ...formData, icon: e.target.value })
                 }
                 placeholder="e.g., Lucide Icon Name"
-                required
               />
             </div>
             <div className="grid gap-2">

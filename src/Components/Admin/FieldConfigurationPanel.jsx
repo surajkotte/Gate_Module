@@ -89,9 +89,16 @@ export const FieldConfigurationPanel = ({
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-3">
               <Button onClick={() => setIsAddingItemField(true)} size="sm">
                 Add Field
+              </Button>
+              <Button
+                onClick={() => saveFields(type)}
+                size="sm"
+                variant="destructive"
+              >
+                Save Fields
               </Button>
             </div>
             <FieldList

@@ -17,19 +17,24 @@ const DynamicForm = ({ config, formData, handleInputChange }) => {
 
   // Helper to render a single input field
   const renderField = (field) => {
-    const Icon = iconMap[field.icon] || FileText;
+    const Icon = iconMap[field?.icon] || FileText;
 
-    if (field.fieldType === "textarea") {
+    if (field?.fieldType === "textarea") {
       return (
-        <div key={field._id} className="space-y-2 w-full">
+        <div key={field?._id} className="space-y-2 w-full">
           <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
             {Icon && <Icon className="w-4 h-4" />}
             {field.fieldLabel}
             {field.isRequired && <span className="text-red-500">*</span>}
           </label>
           <textarea
-            value={formData[field.fieldName]?.value || ""}
-            onChange={(e) => handleInputChange(field.fieldName, e.target.value)}
+            value={
+              formData?.find((data) => data?.fieldName === field?.fieldName)
+                ?.value || ""
+            }
+            onChange={(e) =>
+              handleInputChange(field?.fieldName, e.target.value)
+            }
             rows={4}
             placeholder={`Enter ${field.fieldLabel.toLowerCase()}...`}
             className="w-full px-4 py-3 border border-gray-200 rounded-xl 
@@ -41,16 +46,19 @@ const DynamicForm = ({ config, formData, handleInputChange }) => {
     }
 
     return (
-      <div key={field._id} className="space-y-2 w-full">
+      <div key={field?._id} className="space-y-2 w-full">
         <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
           {Icon && <Icon className="w-4 h-4" />}
-          {field.fieldLabel}
-          {field.isRequired && <span className="text-red-500">*</span>}
+          {field?.fieldLabel}
+          {field?.isRequired && <span className="text-red-500">*</span>}
         </label>
         <Input
-          type={field.fieldType}
-          value={formData[field.fieldName]?.value || ""}
-          onChange={(e) => handleInputChange(field.fieldName, e.target.value)}
+          type={field?.fieldType}
+          value={
+            formData?.find((data) => data?.fieldName === field?.fieldName)
+              ?.value || ""
+          }
+          onChange={(e) => handleInputChange(field?.fieldName, e.target.value)}
           placeholder={`Enter ${field.fieldLabel.toLowerCase()}`}
           className="w-full px-4 py-3 border border-gray-200 rounded-xl 
                      focus:ring-2 focus:ring-blue-500 focus:border-transparent 

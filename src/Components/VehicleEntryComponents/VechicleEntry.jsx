@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Package, AlertTriangle, Truck } from "lucide-react";
 import VehicleWithPOInputForm from "./VehicleWithPOInputForm";
+import VehicleWithoutPOInputForm from "./VehicleWithoutPoInputForm";
 import useVehicleEntryHooks from "../../hooks/useVehicleEntryHooks";
 const EntryTypes = [
   {
@@ -32,9 +33,10 @@ const EntryTypes = [
 
 const VechicleEntry = () => {
   const [entryType, setEntryType] = useState("");
-  const { saveEntries } = useVehicleEntryHooks();
-  const handleSaveClick = async (data) => {
-    const response = await saveEntries(data);
+  const { saveData } = useVehicleEntryHooks();
+  const handleSaveClick = async (data, type) => {
+    console.log(data);
+    const response = await saveData(data, type);
     if (response.messageType == "S") {
       console.log("Vehicle entry saved successfully:", response);
     } else {
@@ -51,7 +53,12 @@ const VechicleEntry = () => {
           />
         );
       case 2:
-        return <div>Without Purchase Order Form</div>;
+        return (
+          <VehicleWithoutPOInputForm
+            onSaveClick={handleSaveClick}
+            onSumbitClick={handleSaveClick}
+          />
+        );
       case 3:
         return <div>Vacant Vehicle Form</div>;
       case 4:
