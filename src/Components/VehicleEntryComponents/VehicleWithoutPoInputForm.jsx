@@ -157,7 +157,9 @@ const VehicleWithoutPOInputForm = ({ onSaveClick, onSubmitClick }) => {
           </div>
         )}
       </div>
-      {formData && formData?.ItemFieldConfigurations?.length != 0 ? (
+      {formData &&
+      formData?.ItemFieldConfigurations?.length != 0 &&
+      formData?.ItemFieldConfigurations[0]?.length != 0 ? (
         <div className="flex w-full flex-col gap-2">
           <div className="flex w-full justify-between">
             <h1 className=" text-black font-bold">Item Details</h1>

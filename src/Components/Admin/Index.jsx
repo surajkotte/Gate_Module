@@ -12,11 +12,17 @@ const Index = () => {
     HeaderFieldConfigurations: [],
     ItemFieldConfigurations: [],
   });
+  const [vacentConfig, setVacentConfig] = useState({
+    HeaderFieldConfigurations: [],
+    ItemFieldConfigurations: [],
+  });
   const handleUpdateConfig = (type, config) => {
     if (type === "vehicle_with_po") {
       setWithPoConfig(config);
-    } else {
+    } else if (type === "vehicle_without_po") {
       setWithoutPoConfig(config);
+    } else if (type === "vacent_vehicle") {
+      setVacentConfig(config);
     }
   };
   const handleSaveConfig = async (type) => {

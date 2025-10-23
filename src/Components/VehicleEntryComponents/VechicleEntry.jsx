@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Package, AlertTriangle, Truck } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import VehicleWithPOInputForm from "./VehicleWithPOInputForm";
 import VehicleWithoutPOInputForm from "./VehicleWithoutPoInputForm";
 import useVehicleEntryHooks from "../../hooks/useVehicleEntryHooks";
@@ -86,7 +87,11 @@ const VechicleEntry = () => {
             <button
               key={index}
               onClick={() => setEntryType(type.id)}
-              className="w-full rounded-lg bg-white p-4 shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+              className={`w-full rounded-lg ${
+                entryType === type?.id
+                  ? "bg-gray-400 text-gray-500"
+                  : "bg-white"
+              } p-4 shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
             >
               <div className="flex items-center">
                 {type.icon}
