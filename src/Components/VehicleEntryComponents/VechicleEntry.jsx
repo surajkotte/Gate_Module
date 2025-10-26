@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import VehicleWithPOInputForm from "./VehicleWithPOInputForm";
 import VehicleWithoutPOInputForm from "./VehicleWithoutPoInputForm";
 import useVehicleEntryHooks from "../../hooks/useVehicleEntryHooks";
+import VacantVehicle from "./VacantVehicle";
+import OtherVehicle from "./OtherVehicle";
 const EntryTypes = [
   {
     id: 1,
@@ -61,9 +63,19 @@ const VechicleEntry = () => {
           />
         );
       case 3:
-        return <div>Vacant Vehicle Form</div>;
+        return (
+          <VacantVehicle
+            onSaveClick={handleSaveClick}
+            onSubmitClick={handleSaveClick}
+          />
+        );
       case 4:
-        return <div>Other Vehicle Form</div>;
+        return (
+          <OtherVehicle
+            onSaveClick={handleSaveClick}
+            onSubmitClick={handleSaveClick}
+          />
+        );
       default:
         return (
           <div className="text-center py-8">
@@ -89,7 +101,7 @@ const VechicleEntry = () => {
               onClick={() => setEntryType(type.id)}
               className={`w-full rounded-lg ${
                 entryType === type?.id
-                  ? "bg-gray-400 text-gray-500"
+                  ? "bg-blue-100 text-gray-500"
                   : "bg-white"
               } p-4 shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer`}
             >

@@ -5,6 +5,10 @@ export const fetchConfig = async (type) => {
     const endpoint =
       type === "vehicle_with_po"
         ? "admin/vehicle_with_po"
+        : type === "vacant_vehicle"
+        ? "admin/vacant_vehicle"
+        : type === "other"
+        ? "admin/other"
         : "admin/vehicle_without_po";
 
     const response = await fetch(`${apiUrl}/${endpoint}`, {
@@ -27,6 +31,10 @@ export const updateConfig = async (type, config) => {
     const endpoint =
       type === "vehicle_with_po"
         ? "admin/vehicle_with_po"
+        : type === "vacant_vehicle"
+        ? "admin/vacant_vehicle"
+        : type === "other"
+        ? "admin/other"
         : "admin/vehicle_without_po";
 
     const response = await fetch(`${apiUrl}/${endpoint}`, {
