@@ -87,8 +87,8 @@ export const ConfigurationTabs = ({
         <AccordionContent className="pt-4">
           <FieldConfigurationPanel
             config={otherConfig}
-            onUpdate={(config) => onUpdateConfig("other", config)}
-            type="other "
+            onUpdate={(config) => onUpdateConfig("other_vehicle", config)}
+            type="other_vehicle"
             saveFields={handleSaveConfig}
           />
         </AccordionContent>

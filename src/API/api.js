@@ -53,3 +53,35 @@ export const getVehicleEntries = async () => {
     throw error;
   }
 };
+
+export const getDefaultConfig = async () => {
+  try {
+    const response = await fetch(`${apiUrl}/default-entries`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching default config:", error.message);
+    throw error;
+  }
+};
+
+export const getSavedVehicleData = async () => {
+  try {
+    const response = await fetch(`${apiUrl}/saved-entries`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching saved vehicle data:", error.message);
+    throw error;
+  }
+};

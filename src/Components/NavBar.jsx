@@ -32,11 +32,11 @@ const ExpenseNavBar = () => {
           </button>
         </Link>
 
-        <Link to="/new">
+        <Link to="/saved-drafts">
           <button
-            onClick={() => setActiveTab("new")}
+            onClick={() => setActiveTab("saved-drafts")}
             className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-              activeTab === "new"
+              activeTab === "saved-drafts"
                 ? "border-primary text-primary"
                 : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted"
             }`}

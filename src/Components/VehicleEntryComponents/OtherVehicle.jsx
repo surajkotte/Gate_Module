@@ -111,7 +111,7 @@ const OtherVehicle = ({ onSaveClick, onSubmitClick }) => {
         <div className="flex gap-3">
           <Button
             variant="secondary"
-            onClick={() => onSaveClick(formData, "other")}
+            onClick={() => onSaveClick(formData, "other_vehicle")}
             className="gap-2"
           >
             <Save className="h-4 w-4" />
@@ -120,7 +120,7 @@ const OtherVehicle = ({ onSaveClick, onSubmitClick }) => {
           <Button
             className="gap-2"
             variant="default"
-            onClick={() => onSubmitClick(formData, "other")}
+            onClick={() => onSubmitClick(formData, "other_vehicle")}
           >
             <Send className="h-4 w-4" />
             Submit

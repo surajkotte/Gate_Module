@@ -6,6 +6,7 @@ import NavBar from "./Components/NavBar";
 import VechicleEntry from "./Components/VehicleEntryComponents/VechicleEntry";
 import Weighbridge from "./Components/Weighbridge/Weighbridge";
 import Index from "./Components/Admin/index.jsx";
+import SavedDrafts from "./Components/SavedDrafts/SavedDrafts.jsx";
 
 const routerProvider = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const routerProvider = createBrowserRouter([
       { path: "/projects", element: <div>Projects Page</div> },
       { path: "/consultation", element: <App /> },
       { path: "/admin", element: <Index /> },
+      { path: "/saved-drafts", element: <SavedDrafts /> },
     ],
   },
 ]);

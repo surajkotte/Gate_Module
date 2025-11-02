@@ -27,6 +27,8 @@ const Index = () => {
       setWithoutPoConfig(config);
     } else if (type === "vacant_vehicle") {
       setVacantConfig(config);
+    } else if (type === "other_vehicle") {
+      setOtherConfig(config);
     }
   };
   const handleSaveConfig = async (type) => {
@@ -36,7 +38,7 @@ const Index = () => {
           ? withPoConfig
           : type === "vacant_vehicle"
           ? vacantConfig
-          : type === "other"
+          : type === "other_vehicle"
           ? otherConfig
           : withoutPoConfig;
       const response = await saveAdminConfig(type, config);
@@ -65,7 +67,7 @@ const Index = () => {
           ItemFieldConfigurations:
             response?.data?.ItemFieldConfigurations || [],
         });
-      } else if (type === "other") {
+      } else if (type === "other_vehicle") {
         setOtherConfig({
           HeaderFieldConfigurations:
             response?.data?.HeaderFieldConfigurations || [],
@@ -82,7 +84,7 @@ const Index = () => {
       const result1 = await getAdminConfig("vehicle_with_po");
       const result2 = await getAdminConfig("vehicle_without_po");
       const result3 = await getAdminConfig("vacant_vehicle");
-      const result4 = await getAdminConfig("other");
+      const result4 = await getAdminConfig("other_vehicle");
       if (result1?.messageType === "S") {
         console.log("Fetched vehicle_with_po config:", result1);
         setWithPoConfig({
