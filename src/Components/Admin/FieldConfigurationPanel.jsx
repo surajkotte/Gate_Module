@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Bold } from "lucide-react";
 import { FieldEditorDialog } from "./FieldEditorDialog";
 import {
   Dialog,
@@ -10,7 +10,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { FieldList } from "./FieldList";
-
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 export const FieldConfigurationPanel = ({
   config,
   onUpdate,
@@ -21,9 +22,32 @@ export const FieldConfigurationPanel = ({
   const [isItemDialogOpen, setIsItemDialogOpen] = useState(false);
   const [isAddingHeaderField, setIsAddingHeaderField] = useState(false);
   const [isAddingItemField, setIsAddingItemField] = useState(false);
+  const [isWeighbridgeDialogOpen, setIsWeighbridgeDialogOpen] = useState(false);
+  const [isAddingWeighbridgeField, setIsAddingWeighbridgeField] =
+    useState(false);
 
   return (
     <div className="space-y-3">
+      <div className="flex items-center justify-between p-4 rounded-lg border bg-card">
+        <div className="space-y-0.5">
+          <Label
+            htmlFor="weighbridge-toggle"
+            className="text-base font-semibold"
+          >
+            Weighbridge Configuration
+          </Label>
+          <p className="text-sm text-muted-foreground">
+            Enable weighbridge fields for this configuration
+          </p>
+        </div>
+        <Switch
+          id="weighbridge-toggle"
+          checked={config.isWeighbridgeEnabled || false}
+          onCheckedChange={(checked) =>
+            onUpdate({ ...config, isWeighbridgeEnabled: checked })
+          }
+        />
+      </div>
       <button
         onClick={() => setIsHeaderDialogOpen(true)}
         className="w-full flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors text-left group"
@@ -49,6 +73,23 @@ export const FieldConfigurationPanel = ({
         </div>
         <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
       </button>
+      {config.isWeighbridgeEnabled && (
+        <button
+          onClick={() => setIsWeighbridgeDialogOpen(true)}
+          className="w-full flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors text-left group"
+        >
+          <div>
+            <h4 className="font-semibold text-foreground">
+              Weighbridge Fields
+            </h4>
+            <p className="text-sm text-muted-foreground">
+              {(config.WeighbridgeFieldConfigurations || []).length} field(s)
+              configured
+            </p>
+          </div>
+          <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+        </button>
+      )}
       <Dialog open={isHeaderDialogOpen} onOpenChange={setIsHeaderDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
@@ -111,6 +152,37 @@ export const FieldConfigurationPanel = ({
           </div>
         </DialogContent>
       </Dialog>
+
+      <Dialog
+        open={isWeighbridgeDialogOpen}
+        onOpenChange={setIsWeighbridgeDialogOpen}
+      >
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Weighbridge Fields Configuration</DialogTitle>
+            <DialogDescription>
+              Manage fields for the weighbridge section
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex justify-end">
+              <Button
+                onClick={() => setIsAddingWeighbridgeField(true)}
+                size="sm"
+              >
+                Add Field
+              </Button>
+            </div>
+            <FieldList
+              fields={config.WeighbridgeFieldConfigurations || []}
+              onUpdate={(fields) =>
+                onUpdate({ ...config, WeighbridgeFieldConfigurations: fields })
+              }
+              fieldType="weighbridge"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
       <FieldEditorDialog
         open={isAddingHeaderField}
         onOpenChange={setIsAddingHeaderField}
@@ -134,6 +206,21 @@ export const FieldConfigurationPanel = ({
             ItemFieldConfigurations: [...config.ItemFieldConfigurations, field],
           });
           setIsAddingItemField(false);
+        }}
+      />
+
+      <FieldEditorDialog
+        open={isAddingWeighbridgeField}
+        onOpenChange={setIsAddingWeighbridgeField}
+        onSave={(field) => {
+          onUpdate({
+            ...config,
+            WeighbridgeFieldConfigurations: [
+              ...(config.WeighbridgeFieldConfigurations || []),
+              field,
+            ],
+          });
+          setIsAddingWeighbridgeField(false);
         }}
       />
     </div>

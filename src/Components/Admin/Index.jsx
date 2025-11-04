@@ -2,23 +2,28 @@ import { useEffect, useState } from "react";
 import useAdminHooks from "../../hooks/useAdminHooks";
 import ConfigurationHeader from "./ConfigurationHeader";
 import { ConfigurationTabs } from "./ConfigurationTabs";
+import { toast } from "sonner";
 const Index = () => {
   const { saveAdminConfig, getAdminConfig } = useAdminHooks();
   const [withPoConfig, setWithPoConfig] = useState({
     HeaderFieldConfigurations: [],
     ItemFieldConfigurations: [],
+    WeighbridgeFieldConfigurations: [],
   });
   const [withoutPoConfig, setWithoutPoConfig] = useState({
     HeaderFieldConfigurations: [],
     ItemFieldConfigurations: [],
+    WeighbridgeFieldConfigurations: [],
   });
   const [otherConfig, setOtherConfig] = useState({
     HeaderFieldConfigurations: [],
     ItemFieldConfigurations: [],
+    WeighbridgeFieldConfigurations: [],
   });
   const [vacantConfig, setVacantConfig] = useState({
     HeaderFieldConfigurations: [],
     ItemFieldConfigurations: [],
+    WeighbridgeFieldConfigurations: [],
   });
   const handleUpdateConfig = (type, config) => {
     if (type === "vehicle_with_po") {
@@ -43,8 +48,11 @@ const Index = () => {
           : withoutPoConfig;
       const response = await saveAdminConfig(type, config);
       if (response.messageType === "E") {
+        toast.error("Error saving config: " + response.message);
         console.error("Error saving config:", response.message);
         return;
+      } else {
+        toast.success("Configuration saved successfully!");
       }
       if (type === "vehicle_with_po") {
         setWithPoConfig({
@@ -52,6 +60,8 @@ const Index = () => {
             response?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations:
             response?.data?.ItemFieldConfigurations || [],
+          WeighbridgeFieldConfigurations:
+            response?.data?.WeighbridgeFieldConfigurations || [],
         });
       } else if (type === "vehicle_without_po") {
         setWithoutPoConfig({
@@ -59,6 +69,8 @@ const Index = () => {
             response?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations:
             response?.data?.ItemFieldConfigurations || [],
+          WeighbridgeFieldConfigurations:
+            response?.data?.WeighbridgeFieldConfigurations || [],
         });
       } else if (type === "vacant_vehicle") {
         setVacantConfig({
@@ -66,6 +78,8 @@ const Index = () => {
             response?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations:
             response?.data?.ItemFieldConfigurations || [],
+          WeighbridgeFieldConfigurations:
+            response?.data?.WeighbridgeFieldConfigurations || [],
         });
       } else if (type === "other_vehicle") {
         setOtherConfig({
@@ -73,10 +87,13 @@ const Index = () => {
             response?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations:
             response?.data?.ItemFieldConfigurations || [],
+          WeighbridgeFieldConfigurations:
+            response?.data?.WeighbridgeFieldConfigurations || [],
         });
       }
     } catch (error) {
       console.error("Error saving config:", error);
+      toast.error("Error saving config: " + error.message);
     }
   };
   useEffect(() => {
@@ -91,6 +108,8 @@ const Index = () => {
           HeaderFieldConfigurations:
             result1?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations: result1?.data?.ItemFieldConfigurations || [],
+          WeighbridgeFieldConfigurations:
+            result1?.data?.WeighbridgeFieldConfigurations || [],
         });
       }
       if (result2?.messageType === "S") {
@@ -99,6 +118,8 @@ const Index = () => {
           HeaderFieldConfigurations:
             result2?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations: result2?.data?.ItemFieldConfigurations || [],
+          WeighbridgeFieldConfigurations:
+            result2?.data?.WeighbridgeFieldConfigurations || [],
         });
       }
       if (result3?.messageType === "S") {
@@ -107,6 +128,8 @@ const Index = () => {
           HeaderFieldConfigurations:
             result3?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations: result3?.data?.ItemFieldConfigurations || [],
+          WeighbridgeFieldConfigurations:
+            result3?.data?.WeighbridgeFieldConfigurations || [],
         });
       }
       if (result4?.messageType === "S") {
@@ -115,6 +138,8 @@ const Index = () => {
           HeaderFieldConfigurations:
             result4?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations: result4?.data?.ItemFieldConfigurations || [],
+          WeighbridgeFieldConfigurations:
+            result4?.data?.WeighbridgeFieldConfigurations || [],
         });
       }
     };

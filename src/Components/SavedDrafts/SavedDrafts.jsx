@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useSavedDrafts from "../../hooks/useSavedDrafts";
-import { Search, Filter, Download, MessageSquareText, Eye } from "lucide-react";
+import {
+  Search,
+  Filter,
+  Download,
+  MessageSquareText,
+  Eye,
+  ExternalLink,
+} from "lucide-react";
 import {
   Table,
   TableBody,
@@ -106,9 +112,14 @@ const SavedDrafts = () => {
                     {savedDrafts &&
                       savedDrafts.length > 0 &&
                       savedDrafts.map((draft, idx) => {
-                        const field = vehicle?.HeaderFieldConfigurations?.find(
-                          (field) => field.fieldName === draft.id
-                        );
+                        const field =
+                          draft?.id === "action"
+                            ? { fieldType: "action", value: "" }
+                            : draft?.id === "type"
+                            ? { fieldType: "type", value: vehicle?.entry_type }
+                            : vehicle?.HeaderFieldConfigurations?.find(
+                                (field) => field.fieldName === draft.id
+                              );
                         return field?.fieldType === "textarea" ? (
                           <TableCell key={idx}>
                             <Button
@@ -123,6 +134,22 @@ const SavedDrafts = () => {
                               }
                             >
                               <MessageSquareText className="h-4 w-4" />
+                            </Button>
+                          </TableCell>
+                        ) : field?.fieldType === "action" ? (
+                          <TableCell key={idx}>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() =>
+                                setDialogOpen({
+                                  type: "Details",
+                                  id: vehicle?._id,
+                                  state: true,
+                                })
+                              }
+                            >
+                              <ExternalLink className="h-4 w-4" />
                             </Button>
                           </TableCell>
                         ) : (
@@ -193,6 +220,32 @@ const SavedDrafts = () => {
           </div>
         )}
       </CardContent>
+      <Dialog
+        open={dialogOpen.state}
+        onOpenChange={(open) =>
+          setDialogOpen((prev) => ({ ...prev, state: open }))
+        }
+      >
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-semibold text-enterprise-navy">
+              {dialogOpen.type}
+            </DialogTitle>
+            <DialogDescription className="mt-2 text-sm text-muted-foreground">
+              Detailed view of {dialogOpen.type}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4">
+            <p>
+              {vehicleData
+                ?.find((v) => v._id === dialogOpen.id)
+                ?.HeaderFieldConfigurations?.find(
+                  (f) => f.fieldName === dialogOpen.type
+                )?.value || "No Data Available"}
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 };

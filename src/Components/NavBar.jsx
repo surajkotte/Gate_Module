@@ -13,7 +13,7 @@ const ExpenseNavBar = () => {
           <FileText className="h-6 w-6 text-primary-foreground" />
         </div>
         <span className="text-xl font-semibold text-foreground tracking-wide">
-          Expense Portal
+          Gate Module
         </span>
       </div>
 

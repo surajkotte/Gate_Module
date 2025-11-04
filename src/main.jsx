@@ -7,6 +7,9 @@ import VechicleEntry from "./Components/VehicleEntryComponents/VechicleEntry";
 import Weighbridge from "./Components/Weighbridge/Weighbridge";
 import Index from "./Components/Admin/index.jsx";
 import SavedDrafts from "./Components/SavedDrafts/SavedDrafts.jsx";
+import { Toaster } from "./Components/ui/toaster";
+import { Toaster as Sonner } from "./Components/ui/sonner";
+import { TooltipProvider } from "./Components/ui/tooltip.jsx";
 
 const routerProvider = createBrowserRouter([
   {
@@ -34,6 +37,8 @@ function App() {
 }
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <Toaster />
+    <Sonner />
     <RouterProvider router={routerProvider} />
   </StrictMode>
 );

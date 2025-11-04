@@ -45,7 +45,6 @@ import {
 } from "@/components/ui/form";
 import useWeighBridgeHooks from "../../hooks/useWeighBridgeHooks";
 import { formatTime } from "../../util/utility";
-import { set } from "date-fns/set";
 import WeighbridgeForm from "./WeighbridgeForm";
 
 const Weighbridge = () => {
