@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/dialog";
 import { fi } from "date-fns/locale/fi";
 import { ButtonIcon } from "@radix-ui/react-icons";
+import SavedDialog from "./SavedDialog";
 
 const SavedDrafts = () => {
   const [dialogOpen, setDialogOpen] = useState({
@@ -226,25 +227,13 @@ const SavedDrafts = () => {
           setDialogOpen((prev) => ({ ...prev, state: open }))
         }
       >
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-semibold text-enterprise-navy">
-              {dialogOpen.type}
-            </DialogTitle>
-            <DialogDescription className="mt-2 text-sm text-muted-foreground">
-              Detailed view of {dialogOpen.type}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="mt-4">
-            <p>
-              {vehicleData
-                ?.find((v) => v._id === dialogOpen.id)
-                ?.HeaderFieldConfigurations?.find(
-                  (f) => f.fieldName === dialogOpen.type
-                )?.value || "No Data Available"}
-            </p>
-          </div>
-        </DialogContent>
+        <SavedDialog
+          type={dialogOpen.type}
+          id={dialogOpen.id}
+          vehicleData={vehicleData}
+          dialogConf={dialogOpen}
+          onClose={() => setDialogOpen({ type: "", id: "", state: false })}
+        />
       </Dialog>
     </Card>
   );

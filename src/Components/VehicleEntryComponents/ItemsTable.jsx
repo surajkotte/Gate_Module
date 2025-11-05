@@ -1,7 +1,13 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 
-const ItemsTable = ({ config, handleInputChange, removeRow, index }) => {
+const ItemsTable = ({
+  config,
+  handleInputChange,
+  removeRow,
+  index,
+  displayOnly,
+}) => {
   return (
     <tbody>
       <tr key={index} className="border-b hover:bg-gray-50">
@@ -18,6 +24,7 @@ const ItemsTable = ({ config, handleInputChange, removeRow, index }) => {
                   onChange={(e) =>
                     handleInputChange(index, field.fieldName, e.target.value)
                   }
+                  disabled={displayOnly}
                   placeholder={`Enter ${field.fieldLabel.toLowerCase()}...`}
                   className="w-full px-2 py-1 border border-gray-200 rounded-md 
                       focus:ring-2 focus:ring-blue-500 focus:border-transparent 
@@ -30,6 +37,7 @@ const ItemsTable = ({ config, handleInputChange, removeRow, index }) => {
                   onChange={(e) =>
                     handleInputChange(index, field.fieldName, e.target.value)
                   }
+                  disabled={displayOnly}
                   placeholder={`Enter ${field.fieldLabel.toLowerCase()}`}
                   className="w-full px-2 py-1 border border-gray-200 rounded-md 
                       focus:ring-2 focus:ring-blue-500 focus:border-transparent 
@@ -40,12 +48,14 @@ const ItemsTable = ({ config, handleInputChange, removeRow, index }) => {
           ))}
 
         <td className="p-2 text-center">
-          <button
-            onClick={() => removeRow(index)}
-            className="text-red-500 hover:text-red-700 text-sm"
-          >
-            ✕
-          </button>
+          {!displayOnly && (
+            <button
+              onClick={() => removeRow(index)}
+              className="text-red-500 hover:text-red-700 text-sm"
+            >
+              ✕
+            </button>
+          )}
         </td>
       </tr>
     </tbody>

@@ -53,6 +53,7 @@ const VechicleEntry = () => {
           <VehicleWithPOInputForm
             onSaveClick={handleSaveClick}
             onSumbitClick={handleSaveClick}
+            displayonly={false}
           />
         );
       case 2:
@@ -60,6 +61,7 @@ const VechicleEntry = () => {
           <VehicleWithoutPOInputForm
             onSaveClick={handleSaveClick}
             onSumbitClick={handleSaveClick}
+            displayonly={false}
           />
         );
       case 3:
@@ -67,6 +69,7 @@ const VechicleEntry = () => {
           <VacantVehicle
             onSaveClick={handleSaveClick}
             onSubmitClick={handleSaveClick}
+            displayonly={false}
           />
         );
       case 4:
@@ -74,6 +77,7 @@ const VechicleEntry = () => {
           <OtherVehicle
             onSaveClick={handleSaveClick}
             onSubmitClick={handleSaveClick}
+            displayonly={false}
           />
         );
       default:

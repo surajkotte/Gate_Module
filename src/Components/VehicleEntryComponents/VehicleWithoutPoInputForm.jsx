@@ -26,7 +26,11 @@ const iconMap = {
   FileText,
   Weight,
 };
-const VehicleWithoutPOInputForm = ({ onSaveClick, onSubmitClick }) => {
+const VehicleWithoutPOInputForm = ({
+  onSaveClick,
+  onSubmitClick,
+  displayOnly = false,
+}) => {
   const [formData, setFormData] = useState("");
   const { getConfig } = useVehicleEntryHooks();
   const handleInputChange = (fieldName, value) => {
@@ -109,22 +113,26 @@ const VehicleWithoutPOInputForm = ({ onSaveClick, onSubmitClick }) => {
           Vehicle Entry Form
         </h1>
         <div className="flex gap-3">
-          <Button
-            variant="secondary"
-            onClick={() => onSaveClick(formData, "vehicle_without_po")}
-            className="gap-2"
-          >
-            <Save className="h-4 w-4" />
-            Save Draft
-          </Button>
-          <Button
-            className="gap-2"
-            variant="default"
-            onClick={() => onSubmitClick(formData, "vehicle_without_po")}
-          >
-            <Send className="h-4 w-4" />
-            Submit
-          </Button>
+          {!displayOnly && (
+            <>
+              <Button
+                variant="secondary"
+                onClick={() => onSaveClick(formData, "vehicle_without_po")}
+                className="gap-2"
+              >
+                <Save className="h-4 w-4" />
+                Save Draft
+              </Button>
+              <Button
+                className="gap-2"
+                variant="default"
+                onClick={() => onSubmitClick(formData, "vehicle_without_po")}
+              >
+                <Send className="h-4 w-4" />
+                Submit
+              </Button>
+            </>
+          )}
         </div>
       </div>
       <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
@@ -147,6 +155,7 @@ const VehicleWithoutPOInputForm = ({ onSaveClick, onSubmitClick }) => {
             config={formData?.HeaderFieldConfigurations}
             formData={formData?.HeaderFieldConfigurations}
             handleInputChange={handleInputChange}
+            displayOnly={displayOnly}
           />
         ) : (
           <div className="text-center py-8">
@@ -164,12 +173,14 @@ const VehicleWithoutPOInputForm = ({ onSaveClick, onSubmitClick }) => {
           <div className="flex w-full justify-between">
             <h1 className=" text-black font-bold">Item Details</h1>
             <div className="flex p-3">
-              <button
-                onClick={addRow}
-                className="px-4 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition"
-              >
-                + Add Row
-              </button>
+              {!displayOnly && (
+                <button
+                  onClick={addRow}
+                  className="px-4 py-2 bg-blue-500 text-white text-sm rounded-md hover:bg-blue-600 transition"
+                >
+                  + Add Row
+                </button>
+              )}
             </div>
           </div>
           <div className="w-full overflow-x-auto border rounded-xl bg-white shadow-sm">
@@ -211,6 +222,7 @@ const VehicleWithoutPOInputForm = ({ onSaveClick, onSubmitClick }) => {
                   config={data}
                   handleInputChange={handleItemChange}
                   removeRow={removeRow}
+                  displayOnly={displayOnly}
                 />
               ))}
             </table>

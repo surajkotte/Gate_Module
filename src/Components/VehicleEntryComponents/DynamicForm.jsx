@@ -11,7 +11,7 @@ const iconMap = {
   FileText,
 };
 
-const DynamicForm = ({ config, formData, handleInputChange }) => {
+const DynamicForm = ({ config, formData, handleInputChange, displayOnly }) => {
   // Sort all fields by sequence
   const sortedFields = [...config].sort((a, b) => a.sequence - b.sequence);
 
@@ -37,6 +37,7 @@ const DynamicForm = ({ config, formData, handleInputChange }) => {
             }
             rows={4}
             placeholder={`Enter ${field.fieldLabel.toLowerCase()}...`}
+            disabled={displayOnly}
             className="w-full px-4 py-3 border border-gray-200 rounded-xl 
                        focus:ring-2 focus:ring-blue-500 focus:border-transparent 
                        transition-all duration-200 bg-gray-50 text-black resize-none"
@@ -58,6 +59,7 @@ const DynamicForm = ({ config, formData, handleInputChange }) => {
             formData?.find((data) => data?.fieldName === field?.fieldName)
               ?.value || ""
           }
+          disabled={displayOnly}
           onChange={(e) => handleInputChange(field?.fieldName, e.target.value)}
           placeholder={`Enter ${field.fieldLabel.toLowerCase()}`}
           className="w-full px-4 py-3 border border-gray-200 rounded-xl 

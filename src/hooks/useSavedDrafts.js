@@ -4,6 +4,16 @@ import { getDefaultConfig, getSavedVehicleData } from "../API/api";
 const useSavedDrafts = () => {
   const [savedDrafts, setSavedDrafts] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
+  const [defaultConfig, setDefaultConfig] = useState([]);
+  const getConfig = async (type) => {
+    try {
+      const response = await getDefaultConfig(type);
+      return response;
+    } catch (error) {
+      console.error("Error in getConfig:", error);
+      return { messageType: "E", message: error.message };
+    }
+  };
   useEffect(() => {
     const fetchDefaultConfig = async () => {
       try {
