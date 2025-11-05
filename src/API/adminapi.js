@@ -52,3 +52,29 @@ export const updateConfig = async (type, config) => {
     throw error;
   }
 };
+
+export const updateWeighbridgeEnableConfig = async (
+  type,
+  state,
+  weighbridgetype
+) => {
+  try {
+    const response = await fetch(`${apiUrl}/weighbridge`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        state: state,
+        weighbridgetype: weighbridgetype,
+        type: type,
+      }),
+    });
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error updating weighbridge config:", error.message);
+    throw error;
+  }
+};

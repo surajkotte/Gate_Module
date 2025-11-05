@@ -17,9 +17,23 @@ const useAdminHooks = () => {
       return;
     }
   };
+  const updateWeighbridgeEnableConfig = async (
+    type,
+    state,
+    weighbridgetype
+  ) => {
+    try {
+      return await updateWeighbridgeEnableConfig(type, state, weighbridgetype);
+    } catch (error) {
+      console.error("Error in updateWeighbridgeEnableConfig:", error);
+      return;
+    }
+  };
+
   return {
     saveAdminConfig,
     getAdminConfig,
+    updateWeighbridgeEnableConfig,
   };
 };
 

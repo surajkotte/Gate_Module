@@ -8,22 +8,34 @@ const Index = () => {
   const [withPoConfig, setWithPoConfig] = useState({
     HeaderFieldConfigurations: [],
     ItemFieldConfigurations: [],
-    WeighbridgeFieldConfigurations: [],
+    WeighbridgeInFieldConfigurations: [],
+    WeighbridgeOutFieldConfigurations: [],
+    isWeighbridgeInEnabled: false,
+    isWeighbridgeOutEnabled: false,
   });
   const [withoutPoConfig, setWithoutPoConfig] = useState({
     HeaderFieldConfigurations: [],
     ItemFieldConfigurations: [],
-    WeighbridgeFieldConfigurations: [],
+    WeighbridgeInFieldConfigurations: [],
+    WeighbridgeOutFieldConfigurations: [],
+    isWeighbridgeInEnabled: false,
+    isWeighbridgeOutEnabled: false,
   });
   const [otherConfig, setOtherConfig] = useState({
     HeaderFieldConfigurations: [],
     ItemFieldConfigurations: [],
-    WeighbridgeFieldConfigurations: [],
+    WeighbridgeInFieldConfigurations: [],
+    WeighbridgeOutFieldConfigurations: [],
+    isWeighbridgeInEnabled: false,
+    isWeighbridgeOutEnabled: false,
   });
   const [vacantConfig, setVacantConfig] = useState({
     HeaderFieldConfigurations: [],
     ItemFieldConfigurations: [],
-    WeighbridgeFieldConfigurations: [],
+    WeighbridgeInFieldConfigurations: [],
+    WeighbridgeOutFieldConfigurations: [],
+    isWeighbridgeInEnabled: false,
+    isWeighbridgeOutEnabled: false,
   });
   const handleUpdateConfig = (type, config) => {
     if (type === "vehicle_with_po") {
@@ -60,8 +72,14 @@ const Index = () => {
             response?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations:
             response?.data?.ItemFieldConfigurations || [],
-          WeighbridgeFieldConfigurations:
-            response?.data?.WeighbridgeFieldConfigurations || [],
+          WeighbridgeInFieldConfigurations:
+            response?.data?.WeighbridgeInFieldConfigurations || [],
+          WeighbridgeOutFieldConfigurations:
+            response?.data?.WeighbridgeOutFieldConfigurations || [],
+          isWeighbridgeInEnabled:
+            response?.data?.isWeighbridgeInEnabled || false,
+          isWeighbridgeOutEnabled:
+            response?.data?.isWeighbridgeOutEnabled || false,
         });
       } else if (type === "vehicle_without_po") {
         setWithoutPoConfig({
@@ -69,8 +87,14 @@ const Index = () => {
             response?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations:
             response?.data?.ItemFieldConfigurations || [],
-          WeighbridgeFieldConfigurations:
-            response?.data?.WeighbridgeFieldConfigurations || [],
+          WeighbridgeInFieldConfigurations:
+            response?.data?.WeighbridgeInFieldConfigurations || [],
+          WeighbridgeOutFieldConfigurations:
+            response?.data?.WeighbridgeOutFieldConfigurations || [],
+          isWeighbridgeInEnabled:
+            response?.data?.isWeighbridgeInEnabled || false,
+          isWeighbridgeOutEnabled:
+            response?.data?.isWeighbridgeOutEnabled || false,
         });
       } else if (type === "vacant_vehicle") {
         setVacantConfig({
@@ -78,8 +102,14 @@ const Index = () => {
             response?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations:
             response?.data?.ItemFieldConfigurations || [],
-          WeighbridgeFieldConfigurations:
-            response?.data?.WeighbridgeFieldConfigurations || [],
+          WeighbridgeInFieldConfigurations:
+            response?.data?.WeighbridgeInFieldConfigurations || [],
+          WeighbridgeOutFieldConfigurations:
+            response?.data?.WeighbridgeOutFieldConfigurations || [],
+          isWeighbridgeInEnabled:
+            response?.data?.isWeighbridgeInEnabled || false,
+          isWeighbridgeOutEnabled:
+            response?.data?.isWeighbridgeOutEnabled || false,
         });
       } else if (type === "other_vehicle") {
         setOtherConfig({
@@ -87,8 +117,14 @@ const Index = () => {
             response?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations:
             response?.data?.ItemFieldConfigurations || [],
-          WeighbridgeFieldConfigurations:
-            response?.data?.WeighbridgeFieldConfigurations || [],
+          WeighbridgeInFieldConfigurations:
+            response?.data?.WeighbridgeInFieldConfigurations || [],
+          WeighbridgeOutFieldConfigurations:
+            response?.data?.WeighbridgeOutFieldConfigurations || [],
+          isWeighbridgeInEnabled:
+            response?.data?.isWeighbridgeInEnabled || false,
+          isWeighbridgeOutEnabled:
+            response?.data?.isWeighbridgeOutEnabled || false,
         });
       }
     } catch (error) {
@@ -108,8 +144,14 @@ const Index = () => {
           HeaderFieldConfigurations:
             result1?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations: result1?.data?.ItemFieldConfigurations || [],
-          WeighbridgeFieldConfigurations:
-            result1?.data?.WeighbridgeFieldConfigurations || [],
+          WeighbridgeInFieldConfigurations:
+            result1?.data?.WeighbridgeInFieldConfigurations || [],
+          WeighbridgeOutFieldConfigurations:
+            result1?.data?.WeighbridgeOutFieldConfigurations || [],
+          isWeighbridgeInEnabled:
+            result1?.data?.isWeighbridgeInEnabled || false,
+          isWeighbridgeOutEnabled:
+            result1?.data?.isWeighbridgeOutEnabled || false,
         });
       }
       if (result2?.messageType === "S") {
@@ -118,8 +160,14 @@ const Index = () => {
           HeaderFieldConfigurations:
             result2?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations: result2?.data?.ItemFieldConfigurations || [],
-          WeighbridgeFieldConfigurations:
-            result2?.data?.WeighbridgeFieldConfigurations || [],
+          WeighbridgeInFieldConfigurations:
+            result2?.data?.WeighbridgeInFieldConfigurations || [],
+          WeighbridgeOutFieldConfigurations:
+            result2?.data?.WeighbridgeOutFieldConfigurations || [],
+          isWeighbridgeInEnabled:
+            result2?.data?.isWeighbridgeInEnabled || false,
+          isWeighbridgeOutEnabled:
+            result2?.data?.isWeighbridgeOutEnabled || false,
         });
       }
       if (result3?.messageType === "S") {
@@ -128,8 +176,14 @@ const Index = () => {
           HeaderFieldConfigurations:
             result3?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations: result3?.data?.ItemFieldConfigurations || [],
-          WeighbridgeFieldConfigurations:
-            result3?.data?.WeighbridgeFieldConfigurations || [],
+          WeighbridgeInFieldConfigurations:
+            result3?.data?.WeighbridgeInFieldConfigurations || [],
+          WeighbridgeOutFieldConfigurations:
+            result3?.data?.WeighbridgeOutFieldConfigurations || [],
+          isWeighbridgeInEnabled:
+            result3?.data?.isWeighbridgeInEnabled || false,
+          isWeighbridgeOutEnabled:
+            result3?.data?.isWeighbridgeOutEnabled || false,
         });
       }
       if (result4?.messageType === "S") {
@@ -138,8 +192,14 @@ const Index = () => {
           HeaderFieldConfigurations:
             result4?.data?.HeaderFieldConfigurations || [],
           ItemFieldConfigurations: result4?.data?.ItemFieldConfigurations || [],
-          WeighbridgeFieldConfigurations:
-            result4?.data?.WeighbridgeFieldConfigurations || [],
+          WeighbridgeInFieldConfigurations:
+            result4?.data?.WeighbridgeInFieldConfigurations || [],
+          WeighbridgeOutFieldConfigurations:
+            result4?.data?.WeighbridgeOutFieldConfigurations || [],
+          isWeighbridgeInEnabled:
+            result4?.data?.isWeighbridgeInEnabled || false,
+          isWeighbridgeOutEnabled:
+            result4?.data?.isWeighbridgeOutEnabled || false,
         });
       }
     };

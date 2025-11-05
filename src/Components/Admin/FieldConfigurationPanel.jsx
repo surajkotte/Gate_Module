@@ -22,10 +22,14 @@ export const FieldConfigurationPanel = ({
   const [isItemDialogOpen, setIsItemDialogOpen] = useState(false);
   const [isAddingHeaderField, setIsAddingHeaderField] = useState(false);
   const [isAddingItemField, setIsAddingItemField] = useState(false);
-  const [isWeighbridgeDialogOpen, setIsWeighbridgeDialogOpen] = useState(false);
-  const [isAddingWeighbridgeField, setIsAddingWeighbridgeField] =
+  const [isWeighbridgeInDialogOpen, setIsWeighbridgeInDialogOpen] =
     useState(false);
-
+  const [isAddingWeighbridgeInField, setIsAddingWeighbridgeInField] =
+    useState(false);
+  const [isAddingWeighbridgeOutField, setIsAddingWeighbridgeOutField] =
+    useState(false);
+  const [isWeighbridgeOutDialogOpen, setIsWeighbridgeOutDialogOpen] =
+    useState(false);
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between p-4 rounded-lg border bg-card">
@@ -34,7 +38,7 @@ export const FieldConfigurationPanel = ({
             htmlFor="weighbridge-toggle"
             className="text-base font-semibold"
           >
-            Weighbridge Configuration
+            Weighbridge Inward Configuration
           </Label>
           <p className="text-sm text-muted-foreground">
             Enable weighbridge fields for this configuration
@@ -42,9 +46,29 @@ export const FieldConfigurationPanel = ({
         </div>
         <Switch
           id="weighbridge-toggle"
-          checked={config.isWeighbridgeEnabled || false}
+          checked={config.isWeighbridgeInEnabled || false}
           onCheckedChange={(checked) =>
-            onUpdate({ ...config, isWeighbridgeEnabled: checked })
+            onUpdate({ ...config, isWeighbridgeInEnabled: checked })
+          }
+        />
+      </div>
+      <div className="flex items-center justify-between p-4 rounded-lg border bg-card">
+        <div className="space-y-0.5">
+          <Label
+            htmlFor="weighbridge-toggle"
+            className="text-base font-semibold"
+          >
+            Weighbridge Outward Configuration
+          </Label>
+          <p className="text-sm text-muted-foreground">
+            Enable weighbridge fields for this configuration
+          </p>
+        </div>
+        <Switch
+          id="weighbridge-toggle"
+          checked={config.isWeighbridgeOutEnabled || false}
+          onCheckedChange={(checked) =>
+            onUpdate({ ...config, isWeighbridgeOutEnabled: checked })
           }
         />
       </div>
@@ -73,17 +97,34 @@ export const FieldConfigurationPanel = ({
         </div>
         <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
       </button>
-      {config.isWeighbridgeEnabled && (
+      {config.isWeighbridgeInEnabled && (
         <button
-          onClick={() => setIsWeighbridgeDialogOpen(true)}
+          onClick={() => setIsWeighbridgeInDialogOpen(true)}
           className="w-full flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors text-left group"
         >
           <div>
             <h4 className="font-semibold text-foreground">
-              Weighbridge Fields
+              Weighbridge Inward Fields
             </h4>
             <p className="text-sm text-muted-foreground">
-              {(config.WeighbridgeFieldConfigurations || []).length} field(s)
+              {(config.WeighbridgeInFieldConfigurations || []).length} field(s)
+              configured
+            </p>
+          </div>
+          <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-foreground transition-colors" />
+        </button>
+      )}
+      {config.isWeighbridgeOutEnabled && (
+        <button
+          onClick={() => setIsWeighbridgeOutDialogOpen(true)}
+          className="w-full flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors text-left group"
+        >
+          <div>
+            <h4 className="font-semibold text-foreground">
+              Weighbridge Outward Fields
+            </h4>
+            <p className="text-sm text-muted-foreground">
+              {(config.WeighbridgeOutFieldConfigurations || []).length} field(s)
               configured
             </p>
           </div>
@@ -154,8 +195,8 @@ export const FieldConfigurationPanel = ({
       </Dialog>
 
       <Dialog
-        open={isWeighbridgeDialogOpen}
-        onOpenChange={setIsWeighbridgeDialogOpen}
+        open={isWeighbridgeInDialogOpen}
+        onOpenChange={setIsWeighbridgeInDialogOpen}
       >
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
@@ -165,18 +206,68 @@ export const FieldConfigurationPanel = ({
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-3">
               <Button
-                onClick={() => setIsAddingWeighbridgeField(true)}
+                onClick={() => setIsAddingWeighbridgeInField(true)}
                 size="sm"
               >
                 Add Field
               </Button>
+              <Button
+                onClick={() => saveFields(type)}
+                size="sm"
+                variant="destructive"
+              >
+                Save Fields
+              </Button>
             </div>
             <FieldList
-              fields={config.WeighbridgeFieldConfigurations || []}
+              fields={config.WeighbridgeInFieldConfigurations || []}
               onUpdate={(fields) =>
-                onUpdate({ ...config, WeighbridgeFieldConfigurations: fields })
+                onUpdate({
+                  ...config,
+                  WeighbridgeInFieldConfigurations: fields,
+                })
+              }
+              fieldType="weighbridge"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={isWeighbridgeOutDialogOpen}
+        onOpenChange={setIsWeighbridgeOutDialogOpen}
+      >
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Weighbridge Out Fields Configuration</DialogTitle>
+            <DialogDescription>
+              Manage fields for the weighbridge section
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex justify-end gap-3">
+              <Button
+                onClick={() => setIsAddingWeighbridgeOutField(true)}
+                size="sm"
+              >
+                Add Field
+              </Button>
+              <Button
+                onClick={() => saveFields(type)}
+                size="sm"
+                variant="destructive"
+              >
+                Save Fields
+              </Button>
+            </div>
+            <FieldList
+              fields={config.WeighbridgeOutFieldConfigurations || []}
+              onUpdate={(fields) =>
+                onUpdate({
+                  ...config,
+                  WeighbridgeOutFieldConfigurations: fields,
+                })
               }
               fieldType="weighbridge"
             />
@@ -210,17 +301,32 @@ export const FieldConfigurationPanel = ({
       />
 
       <FieldEditorDialog
-        open={isAddingWeighbridgeField}
-        onOpenChange={setIsAddingWeighbridgeField}
+        open={isAddingWeighbridgeInField}
+        onOpenChange={setIsAddingWeighbridgeInField}
         onSave={(field) => {
           onUpdate({
             ...config,
-            WeighbridgeFieldConfigurations: [
-              ...(config.WeighbridgeFieldConfigurations || []),
+            WeighbridgeInFieldConfigurations: [
+              ...(config.WeighbridgeInFieldConfigurations || []),
               field,
             ],
           });
-          setIsAddingWeighbridgeField(false);
+          setIsAddingWeighbridgeInField(false);
+        }}
+      />
+
+      <FieldEditorDialog
+        open={isAddingWeighbridgeOutField}
+        onOpenChange={setIsAddingWeighbridgeOutField}
+        onSave={(field) => {
+          onUpdate({
+            ...config,
+            WeighbridgeOutFieldConfigurations: [
+              ...(config.WeighbridgeOutFieldConfigurations || []),
+              field,
+            ],
+          });
+          setIsAddingWeighbridgeOutField(false);
         }}
       />
     </div>
