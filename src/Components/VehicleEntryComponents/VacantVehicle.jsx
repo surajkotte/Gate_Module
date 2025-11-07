@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ItemsTable from "./ItemsTable";
 import { Button } from "@/Components/ui/button";
+import { getSavedEntriesById } from "../../API/api";
 import useVehicleEntryHooks from "../../hooks/useVehicleEntryHooks";
 import DynamicForm from "./DynamicForm";
 import {
@@ -26,7 +27,12 @@ const iconMap = {
   FileText,
   Weight,
 };
-const VacantVehicle = ({ onSaveClick, onSubmitClick, displayOnly = false }) => {
+const VacantVehicle = ({
+  onSaveClick,
+  onSubmitClick,
+  displayOnly = false,
+  id,
+}) => {
   const [formData, setFormData] = useState("");
   const { getConfig } = useVehicleEntryHooks();
   const handleInputChange = (fieldName, value) => {
@@ -78,7 +84,7 @@ const VacantVehicle = ({ onSaveClick, onSubmitClick, displayOnly = false }) => {
   };
 
   useEffect(() => {
-    const fetchConfig = async () => {
+    const fetchInputConfig = async () => {
       const config = await getConfig("vacant_vehicle");
       if (config.messageType === "S") {
         console.log("Fetched vacant_vehicle config:", config);
@@ -100,7 +106,25 @@ const VacantVehicle = ({ onSaveClick, onSubmitClick, displayOnly = false }) => {
         console.error("Failed to fetch vacant_vehicle config");
       }
     };
-    fetchConfig();
+    const fetchDisplayConfig = async () => {
+      const result = await getSavedEntriesById(id);
+      if (result.messageType === "S") {
+        console.log("Fetched saved vehicle_with_po data:", result);
+        setFormData({
+          HeaderFieldConfigurations:
+            result?.data?.[0]?.HeaderFieldConfigurations || [],
+          ItemFieldConfigurations:
+            result?.data?.[0]?.ItemFieldConfigurations || [],
+        });
+      } else {
+        console.error("Failed to fetch saved vehicle_with_po data");
+      }
+    };
+    if (displayOnly) {
+      fetchDisplayConfig();
+    } else {
+      fetchInputConfig();
+    }
   }, []);
   return (
     <div className="w-full flex flex-col gap-5">

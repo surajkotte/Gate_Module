@@ -3,7 +3,7 @@ import VehicleWithPOInputForm from "../VehicleEntryComponents/VehicleWithPOInput
 import VehicleWithoutPOInputForm from "../VehicleEntryComponents/VehicleWithoutPoInputForm";
 import VacantVehicle from "../VehicleEntryComponents/VacantVehicle";
 import OtherVehicle from "../VehicleEntryComponents/OtherVehicle";
-const DetailsDialog = ({ type }) => {
+const DetailsDialog = ({ type, id }) => {
   const renderForm = (entry) => {
     const type_info = { with_po: 1, without_po: 2, vacant: 3, other: 4 };
     const entry_type = type_info[entry];
@@ -15,6 +15,7 @@ const DetailsDialog = ({ type }) => {
             onSaveClick={() => {}}
             onSumbitClick={() => {}}
             displayOnly={true}
+            id={id}
           />
         );
       case 2:
@@ -23,6 +24,7 @@ const DetailsDialog = ({ type }) => {
             onSaveClick={() => {}}
             onSumbitClick={() => {}}
             displayOnly={true}
+            id={id}
           />
         );
       case 3:
@@ -31,6 +33,7 @@ const DetailsDialog = ({ type }) => {
             onSaveClick={() => {}}
             onSubmitClick={() => {}}
             displayOnly={true}
+            id={id}
           />
         );
       case 4:
@@ -39,6 +42,7 @@ const DetailsDialog = ({ type }) => {
             onSaveClick={() => {}}
             onSubmitClick={() => {}}
             displayOnly={true}
+            id={id}
           />
         );
       default:

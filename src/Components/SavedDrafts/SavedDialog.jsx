@@ -47,6 +47,7 @@ const SavedDialog = ({ type, id, dialogConf, vehicleData, onClose }) => {
               type={
                 vehicleData?.find((v) => v._id === dialogConf.id)?.entry_type
               }
+              id={dialogConf.id}
             />
           </div>
         </DialogContent>

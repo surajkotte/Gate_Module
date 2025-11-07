@@ -12,7 +12,7 @@ const ItemsTable = ({
     <tbody>
       <tr key={index} className="border-b hover:bg-gray-50">
         <td className="p-2 border-r text-center">{index + 1}</td>
-
+        {console.log("ItemsTable config:", config)}
         {config
           .sort((a, b) => a.sequence - b.sequence)
           .map((field) => (

@@ -85,3 +85,19 @@ export const getSavedVehicleData = async () => {
     throw error;
   }
 };
+
+export const getSavedEntriesById = async (id) => {
+  try {
+    const response = await fetch(`${apiUrl}/saved-entry/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching saved entries by type:", error.message);
+    throw error;
+  }
+};

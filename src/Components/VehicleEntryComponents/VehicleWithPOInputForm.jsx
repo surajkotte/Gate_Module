@@ -16,6 +16,8 @@ import {
   Save,
   Send,
 } from "lucide-react";
+import { getSavedEntriesById } from "../../API/api";
+import { id } from "date-fns/locale/id";
 
 const iconMap = {
   Truck,
@@ -30,6 +32,7 @@ const VehicleWithPOInputForm = ({
   onSaveClick,
   onSubmitClick,
   displayOnly,
+  id,
 }) => {
   const [formData, setFormData] = useState("");
   const { getConfig } = useVehicleEntryHooks();
@@ -82,7 +85,7 @@ const VehicleWithPOInputForm = ({
   };
 
   useEffect(() => {
-    const fetchConfig = async () => {
+    const fetchInputConfig = async () => {
       const config = await getConfig("vehicle_with_po");
       if (config.messageType === "S") {
         console.log("Fetched vehicle_with_po config:", config);
@@ -104,8 +107,26 @@ const VehicleWithPOInputForm = ({
         console.error("Failed to fetch vehicle_with_po config");
       }
     };
-    fetchConfig();
-  }, []);
+    const fetchDisplayConfig = async () => {
+      const result = await getSavedEntriesById(id);
+      if (result.messageType === "S") {
+        console.log("Fetched saved vehicle_with_po data:", result);
+        setFormData({
+          HeaderFieldConfigurations:
+            result?.data?.[0]?.HeaderFieldConfigurations || [],
+          ItemFieldConfigurations:
+            result?.data?.[0]?.ItemFieldConfigurations || [],
+        });
+      } else {
+        console.error("Failed to fetch saved vehicle_with_po data");
+      }
+    };
+    if (displayOnly) {
+      fetchDisplayConfig();
+    } else {
+      fetchInputConfig();
+    }
+  }, [id, displayOnly]);
   return (
     <div className="w-full flex flex-col gap-5">
       <div className="flex items-center gap-2 justify-between">
