@@ -57,6 +57,7 @@ const Weighbridge = () => {
     setCurrentPage,
     setSearchTerm,
     setWeighbridgeAction,
+    weighbridgeHeader,
   } = useWeighBridgeHooks();
   const [dialogOpen, setDialogOpen] = useState(false);
   const hasVehicleData = paginatedCourses && paginatedCourses.length > 0;
@@ -90,7 +91,7 @@ const Weighbridge = () => {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-enterprise-navy">
-            Vehicle Tracking
+            Weighbridge tracking
           </CardTitle>
           <div className="flex items-center space-x-2">
             <Button variant="outline" size="sm">
@@ -130,14 +131,19 @@ const Weighbridge = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Vehicle Details</TableHead>
+              {weighbridgeHeader &&
+                weighbridgeHeader?.length != 0 &&
+                weighbridgeHeader?.map((data) => {
+                  return <TableHead>{data?.fieldLabel}</TableHead>;
+                })}
+              {/* <TableHead>Vehicle Details</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Priority</TableHead>
               <TableHead>Location</TableHead>
               <TableHead>Weight</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Time</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>Actions</TableHead> */}
             </TableRow>
           </TableHeader>
           <TableBody>

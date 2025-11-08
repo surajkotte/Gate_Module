@@ -101,3 +101,14 @@ export const getSavedEntriesById = async (id) => {
     throw error;
   }
 };
+
+export const getWeighbridgeHeader = async () => {
+  try {
+    const response = await fetch(`${apiUrl}/weighbridge/header`);
+    const respnseData = await response.json();
+    return respnseData;
+  } catch (error) {
+    console.error("Error fetching entries:", error.message);
+    throw error;
+  }
+};

@@ -32,7 +32,7 @@ const SavedDialog = ({ type, id, dialogConf, vehicleData, onClose }) => {
           </div>
         </DialogContent>
       ) : (
-        <DialogContent className="max-w-5xl max-h-full overflow-y-auto">
+        <DialogContent className="max-w-7xl max-h-[90%] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-lg font-semibold text-enterprise-navy">
               {dialogConf.type}

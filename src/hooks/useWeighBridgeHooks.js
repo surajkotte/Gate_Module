@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { getVehicleEntries } from "../API/api";
-import { se } from "date-fns/locale/se";
+import { getVehicleEntries, getWeighbridgeHeader } from "../API/api";
 const useWeighBridgeHooks = () => {
+  const [weighbridgeHeader, setWeighbridgeHeader] = useState("");
   const [vehicleData, setVehicleData] = React.useState([]);
   const [itemsPerPage, setItemsPerPage] = React.useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,10 +48,24 @@ const useWeighBridgeHooks = () => {
     };
     //fetchData();
   }, []);
+  useEffect(() => {
+    const fetchHeader = async () => {
+      const response = await getWeighbridgeHeader();
+      if (response?.messageType === "S") {
+        setWeighbridgeHeader([
+          ...(response?.data || []),
+          { fieldName: "type", fieldLabel: "Weight In/Out" },
+          { fieldName: "action", fieldLabel: "Action" },
+        ]);
+      }
+    };
+    fetchHeader();
+  }, []);
   return {
     setCurrentPage,
     setSearchTerm,
     setWeighbridgeAction,
+    weighbridgeHeader,
     vehicleData,
     totalPages,
     currentPage,

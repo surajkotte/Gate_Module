@@ -177,6 +177,7 @@ const VehicleWithoutPOInputForm = ({
             formData={formData?.HeaderFieldConfigurations}
             handleInputChange={handleInputChange}
             displayOnly={displayOnly}
+            key={"header_without_po"}
           />
         ) : (
           <div className="text-center py-8">

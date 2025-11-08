@@ -177,6 +177,7 @@ const VehicleWithPOInputForm = ({
             formData={formData?.HeaderFieldConfigurations}
             handleInputChange={handleInputChange}
             displayOnly={displayOnly}
+            key={"header_with_po"}
           />
         ) : (
           <div className="text-center py-8">

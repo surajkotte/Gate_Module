@@ -128,7 +128,7 @@ const SavedDrafts = () => {
                               size="sm"
                               onClick={() =>
                                 setDialogOpen({
-                                  type: field?.fieldName,
+                                  type: field?.fieldType,
                                   id: vehicle?._id,
                                   state: true,
                                 })

@@ -12,16 +12,17 @@ const iconMap = {
 };
 
 const DynamicForm = ({ config, formData, handleInputChange, displayOnly }) => {
-  // Sort all fields by sequence
   const sortedFields = [...config].sort((a, b) => a.sequence - b.sequence);
 
-  // Helper to render a single input field
   const renderField = (field) => {
     const Icon = iconMap[field?.icon] || FileText;
 
     if (field?.fieldType === "textarea") {
       return (
-        <div key={field?._id} className="space-y-2 w-full">
+        <div
+          key={field?._id + "" + field?.fieldName}
+          className="space-y-2 w-full"
+        >
           <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
             {Icon && <Icon className="w-4 h-4" />}
             {field.fieldLabel}
@@ -47,7 +48,10 @@ const DynamicForm = ({ config, formData, handleInputChange, displayOnly }) => {
     }
 
     return (
-      <div key={field?._id} className="space-y-2 w-full">
+      <div
+        key={field?._id + "" + field?.fieldName}
+        className="space-y-2 w-full"
+      >
         <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
           {Icon && <Icon className="w-4 h-4" />}
           {field?.fieldLabel}
@@ -70,7 +74,6 @@ const DynamicForm = ({ config, formData, handleInputChange, displayOnly }) => {
     );
   };
 
-  // Sequential rendering logic:
   const rows = [];
   let i = 0;
   while (i < sortedFields.length) {
@@ -78,7 +81,6 @@ const DynamicForm = ({ config, formData, handleInputChange, displayOnly }) => {
 
     if (current.width === "flex") {
       const next = sortedFields[i + 1];
-      // If next field is also flex → render as 2-column row
       if (next && next.width === "flex") {
         rows.push(
           <div
@@ -89,14 +91,12 @@ const DynamicForm = ({ config, formData, handleInputChange, displayOnly }) => {
             {renderField(next)}
           </div>
         );
-        i += 2; // Skip next since it's already rendered
+        i += 2;
       } else {
-        // Single flex item → still full-width
         rows.push(<div key={current._id}>{renderField(current)}</div>);
         i += 1;
       }
     } else {
-      // Full-width field
       rows.push(<div key={current._id}>{renderField(current)}</div>);
       i += 1;
     }
