@@ -112,3 +112,35 @@ export const getWeighbridgeHeader = async () => {
     throw error;
   }
 };
+
+export const submitVehicleEntry = async (data, type) => {
+  try {
+    const response = await fetch(`${apiUrl}/entry/submit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data, type }),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error saving vehicle entries:", error.message);
+    throw error;
+  }
+};
+
+export const getWeighbridgeVehicledata = async () => {
+  try {
+    const response = await fetch(`${apiUrl}/weighbridge/vehicleData`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error fetching vehicle entries:", error.message);
+  }
+};

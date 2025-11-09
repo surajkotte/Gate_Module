@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { getVehicleEntries, getWeighbridgeHeader } from "../API/api";
+import { getWeighbridgeHeader, getWeighbridgeVehicledata } from "../API/api";
 const useWeighBridgeHooks = () => {
   const [weighbridgeHeader, setWeighbridgeHeader] = useState("");
   const [vehicleData, setVehicleData] = React.useState([]);
@@ -37,16 +37,15 @@ const useWeighBridgeHooks = () => {
       currentPage * itemsPerPage
     );
   useEffect(() => {
-    // Fetch vehicle entries when the component mounts
     const fetchData = async () => {
-      const response = await getVehicleEntries();
+      const response = await getWeighbridgeVehicledata();
       if (response.messageType === "S") {
         setVehicleData(response.data);
       } else {
         console.error("Failed to fetch vehicle entries");
       }
     };
-    //fetchData();
+    fetchData();
   }, []);
   useEffect(() => {
     const fetchHeader = async () => {
@@ -54,12 +53,15 @@ const useWeighBridgeHooks = () => {
       if (response?.messageType === "S") {
         setWeighbridgeHeader([
           ...(response?.data || []),
-          { fieldName: "type", fieldLabel: "Weight In/Out" },
-          { fieldName: "action", fieldLabel: "Action" },
+          { fieldType: "type", fieldLabel: "Weight In/Out" },
+          { fieldType: "action", fieldLabel: "Action" },
         ]);
       }
     };
     fetchHeader();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {};
   }, []);
   return {
     setCurrentPage,

@@ -1,4 +1,8 @@
-import { getVehicleEntryConfig, saveVehicleEntries } from "../API/api.js";
+import {
+  getVehicleEntryConfig,
+  saveVehicleEntries,
+  submitVehicleEntry,
+} from "../API/api.js";
 const useVehicleEntryHooks = () => {
   const getConfig = async (type) => {
     try {
@@ -17,9 +21,18 @@ const useVehicleEntryHooks = () => {
       return { messageType: "E", message: error?.message };
     }
   };
+  const submitData = async (data, type) => {
+    try {
+      const response = await submitVehicleEntry(data, type);
+      return response;
+    } catch (error) {
+      return { messageType: "E", message: error.message };
+    }
+  };
   return {
     saveData,
     getConfig,
+    submitData,
   };
 };
 

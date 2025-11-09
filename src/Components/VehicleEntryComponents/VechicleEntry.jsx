@@ -6,6 +6,7 @@ import VehicleWithoutPOInputForm from "./VehicleWithoutPoInputForm";
 import useVehicleEntryHooks from "../../hooks/useVehicleEntryHooks";
 import VacantVehicle from "./VacantVehicle";
 import OtherVehicle from "./OtherVehicle";
+import { toast } from "sonner";
 const EntryTypes = [
   {
     id: 1,
@@ -36,14 +37,24 @@ const EntryTypes = [
 
 const VechicleEntry = () => {
   const [entryType, setEntryType] = useState("");
-  const { saveData } = useVehicleEntryHooks();
+  const { saveData, submitData } = useVehicleEntryHooks();
   const handleSaveClick = async (data, type) => {
     console.log(data);
     const response = await saveData(data, type);
     if (response.messageType == "S") {
-      console.log("Vehicle entry saved successfully:", response);
+      toast.success("Vehicle data saved successfully");
     } else {
-      console.error("Failed to save vehicle entry");
+      toast.error("unable to save vehicle data");
+      console.log(response?.message);
+    }
+  };
+  const handleSubmit = async (data, type) => {
+    const response = await submitData(data, type);
+    if (response.messageType == "S") {
+      toast.success("Vehicle entry submitted successfully");
+    } else {
+      toast.error("Failed to submit vehicle data");
+      console.error("Failed to save vehicle entry" + response?.message);
     }
   };
   const renderForm = (entry) => {
@@ -52,7 +63,7 @@ const VechicleEntry = () => {
         return (
           <VehicleWithPOInputForm
             onSaveClick={handleSaveClick}
-            onSumbitClick={handleSaveClick}
+            onSubmitClick={handleSubmit}
             displayonly={false}
           />
         );
@@ -60,7 +71,7 @@ const VechicleEntry = () => {
         return (
           <VehicleWithoutPOInputForm
             onSaveClick={handleSaveClick}
-            onSumbitClick={handleSaveClick}
+            onSubmitClick={handleSubmit}
             displayonly={false}
           />
         );
@@ -68,7 +79,7 @@ const VechicleEntry = () => {
         return (
           <VacantVehicle
             onSaveClick={handleSaveClick}
-            onSubmitClick={handleSaveClick}
+            onSubmitClick={handleSubmit}
             displayonly={false}
           />
         );
@@ -76,7 +87,7 @@ const VechicleEntry = () => {
         return (
           <OtherVehicle
             onSaveClick={handleSaveClick}
-            onSubmitClick={handleSaveClick}
+            onSubmitClick={handleSubmit}
             displayonly={false}
           />
         );

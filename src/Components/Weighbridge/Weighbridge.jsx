@@ -8,9 +8,8 @@ import {
   Filter,
   Download,
   Eye,
-  Clock,
-  MapPin,
-  Calendar,
+  MessageSquareText,
+  ExternalLink,
 } from "lucide-react";
 import {
   Table,
@@ -28,24 +27,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Dialog } from "@/components/ui/dialog";
 import useWeighBridgeHooks from "../../hooks/useWeighBridgeHooks";
-import { formatTime } from "../../util/utility";
 import WeighbridgeForm from "./WeighbridgeForm";
+import WeighbridgeDialog from "./WeighbridgeDialog";
 
 const Weighbridge = () => {
   const {
@@ -59,7 +44,7 @@ const Weighbridge = () => {
     setWeighbridgeAction,
     weighbridgeHeader,
   } = useWeighBridgeHooks();
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState("");
   const hasVehicleData = paginatedCourses && paginatedCourses.length > 0;
   const getStatusBadge = (status) => {
     const statusMap = {
@@ -136,75 +121,73 @@ const Weighbridge = () => {
                 weighbridgeHeader?.map((data) => {
                   return <TableHead>{data?.fieldLabel}</TableHead>;
                 })}
-              {/* <TableHead>Vehicle Details</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Priority</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Weight</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Time</TableHead>
-              <TableHead>Actions</TableHead> */}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {hasVehicleData &&
-              paginatedCourses?.map((vehicle, index) => (
-                <TableRow
-                  key={vehicle.vehicleId + "id" + index}
-                  className="hover:bg-accent/50"
-                >
-                  <TableCell>
-                    <div>
-                      <div className="font-medium text-enterprise-navy">
-                        {vehicle.vehicleNo}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {vehicle.driverName}
-                      </div>
-                    </div>
-                  </TableCell>
-                  {/* <TableCell className="font-mono text-sm">
-                  {vehicle.poNumber}
-                </TableCell> */}
-                  <TableCell>{getStatusBadge(1, "Low")}</TableCell>
-                  <TableCell>{getPriorityBadge("Medium")}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-1">
-                      <MapPin className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm">{"Test"}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="font-mono text-sm">
-                    {vehicle?.weight || "-"}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-1">
-                      <Calendar className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm">{vehicle?.inDate}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-1">
-                      <Clock className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-sm">
-                        {formatTime(vehicle?.inTime)}
-                      </span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        setWeighbridgeAction({ vehicleId: vehicle.vehicleId });
-                        setDialogOpen(true);
-                      }}
-                    >
-                      <Eye className="w-4 h-4" />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+            {vehicleData &&
+              vehicleData?.length != 0 &&
+              vehicleData?.map((data) => {
+                return (
+                  <TableRow>
+                    {weighbridgeHeader &&
+                      weighbridgeHeader?.length != 0 &&
+                      weighbridgeHeader?.map((header, idx) => {
+                        const field =
+                          header?.fieldType === "action"
+                            ? { fieldType: "action", value: "" }
+                            : header?.fieldType === "type"
+                            ? { fieldType: "type", value: data?.entry_type }
+                            : data?.WeighbridgeFieldConfigurations?.find(
+                                (field) => field.fieldName === header.fieldName
+                              );
+                        return field?.fieldType === "textarea" ? (
+                          <TableCell key={idx + "" + field?.fieldName}>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                setDialogOpen({
+                                  type: field?.fieldType,
+                                  id: data?._id,
+                                  state: true,
+                                });
+                              }}
+                            >
+                              <MessageSquareText className="h-4 w-4" />
+                            </Button>
+                          </TableCell>
+                        ) : field?.fieldType === "action" ? (
+                          <TableCell key={idx + "" + field?.fieldName}>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                setDialogOpen({
+                                  type: "action",
+                                  id: data?._id,
+                                  state: true,
+                                });
+                              }}
+                            >
+                              <ExternalLink className="h-4 w-4" />
+                            </Button>
+                          </TableCell>
+                        ) : (
+                          <TableCell
+                            key={idx + "" + field?.fieldName}
+                            className={`${
+                              data.fieldName === "vehicle_number"
+                                ? "font-bold"
+                                : ""
+                            }`}
+                          >
+                            {field?.value || "-"}
+                          </TableCell>
+                        );
+                      })}
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
         {weighbridgeAction?.vehicleId && (
@@ -276,6 +259,20 @@ const Weighbridge = () => {
           </div>
         )}
       </CardContent>
+      <Dialog
+        open={dialogOpen.state}
+        onOpenChange={(open) =>
+          setDialogOpen((prev) => ({ ...prev, state: open }))
+        }
+      >
+        <WeighbridgeDialog
+          type={dialogOpen.type}
+          id={dialogOpen.id}
+          vehicleData={vehicleData}
+          dialogConf={dialogOpen}
+          onClose={() => setDialogOpen({ type: "", id: "", state: false })}
+        />
+      </Dialog>
     </Card>
   );
 };
