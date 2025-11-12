@@ -144,3 +144,19 @@ export const getWeighbridgeVehicledata = async () => {
     console.error("Error fetching vehicle entries:", error.message);
   }
 };
+
+export const updateWeighbridgeData = async (data) => {
+  try {
+    const response = await fetch(`${apiUrl}/weighbridge/update`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...data }),
+    });
+    const respnseData = await response.json();
+    return respnseData;
+  } catch (error) {
+    return { messageType: "E", message: error?.message };
+  }
+};

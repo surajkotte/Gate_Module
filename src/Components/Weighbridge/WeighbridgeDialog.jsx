@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useWeighBridgeHooks from "../../hooks/useWeighBridgeHooks";
 import {
   Dialog,
   DialogContent,
@@ -6,10 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+
 import WeighbridgeForm from "./WeighbridgeForm";
 const WeighbridgeDialog = ({ type, id, dialogConf, vehicleData, onClose }) => {
   const selectedVehicleData = vehicleData?.find((data) => data?._id === id);
-  console.log(selectedVehicleData);
   return (
     <>
       {type === "textarea" ? (
@@ -45,6 +46,7 @@ const WeighbridgeDialog = ({ type, id, dialogConf, vehicleData, onClose }) => {
           <WeighbridgeForm
             onClose={onClose}
             vehicleData={selectedVehicleData}
+            vehicleId={dialogConf.id}
           />
         </DialogContent>
       )}

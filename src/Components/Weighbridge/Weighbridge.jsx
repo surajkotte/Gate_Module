@@ -41,7 +41,6 @@ const Weighbridge = () => {
     weighbridgeAction,
     setCurrentPage,
     setSearchTerm,
-    setWeighbridgeAction,
     weighbridgeHeader,
   } = useWeighBridgeHooks();
   const [dialogOpen, setDialogOpen] = useState("");

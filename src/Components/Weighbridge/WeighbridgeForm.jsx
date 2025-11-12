@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
   Form,
   FormControl,
   FormField,
@@ -25,6 +18,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import useWeighBridgeHooks from "../../hooks/useWeighBridgeHooks";
+import { updateWeighbridgeData } from "../../API/api";
 
 // Helper function to extract default values from the configuration array
 const getDefaultValues = (configurations) => {
@@ -40,14 +36,10 @@ const getDefaultValues = (configurations) => {
 const renderField = (config, field, formErrors, calculateNetWeight) => {
   const { fieldType, fieldLabel, fieldName, isRequired, options, width } =
     config;
-
-  // Custom classes for grid layout (based on your 'width' logic)
   const widthClass =
     width === "full" ? "col-span-1 md:col-span-2" : "col-span-1";
-
-  // Determine if a field requires a custom input type
   let inputType = fieldType === "number" ? "number" : "text";
-  if (fieldType === "date") inputType = "datetime-local"; // For date/time input
+  if (fieldType === "date") inputType = "datetime-local";
 
   const label = `${fieldLabel}${isRequired ? " *" : ""}`;
 
@@ -121,7 +113,7 @@ const renderField = (config, field, formErrors, calculateNetWeight) => {
 const WeighbridgeForm = ({ onClose, vehicleData }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState({});
-
+  const { updateWeighbridge } = useWeighBridgeHooks();
   // Destructure the configurations array
   const configurations = vehicleData?.WeighbridgeFieldConfigurations || [];
 
@@ -178,6 +170,8 @@ const WeighbridgeForm = ({ onClose, vehicleData }) => {
     const errors = validateForm(data);
     setFormErrors(errors);
 
+    //console.log(data);
+
     if (Object.keys(errors).length > 0) {
       // Show validation toast/message if available
       return;
@@ -185,7 +179,7 @@ const WeighbridgeForm = ({ onClose, vehicleData }) => {
 
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      //  await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Transform the flat form data back into the expected array structure
       const updatedConfigurations = configurations.map((config) => ({
@@ -194,21 +188,28 @@ const WeighbridgeForm = ({ onClose, vehicleData }) => {
       }));
 
       const submissionData = {
-        ...vehicleData,
+        vehicleDataModelId: vehicleData?.vehicleDataModelId,
+        id: vehicleData?._id,
         WeighbridgeFieldConfigurations: updatedConfigurations,
         // Add/Update other top-level fields like 'status' if needed
-        status: "weigh_bridge_complete",
-        updatedAt: new Date().toISOString(),
+        //status: "weigh_bridge_complete",
+        //updatedAt: new Date().toISOString(),
       };
 
-      console.log("Weighbridge Submitted Data: ", submissionData);
+      const response = await updateWeighbridgeData(submissionData);
+      if (response?.messageType === "S") {
+        toast.success("Data updated successfully");
+        onClose();
+      } else {
+        toast.error(response?.message);
+      }
 
       // Show success toast/message if available
 
       // Reset form, errors, and close dialog
-      form.reset(getDefaultValues(configurations));
-      setFormErrors({});
-      onOpenChange(false);
+      // form.reset(getDefaultValues(configurations));
+      // setFormErrors({});
+      // onOpenChange(false);
     } catch (error) {
       // Show failure toast/message if available
     } finally {

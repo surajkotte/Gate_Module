@@ -1,5 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { getWeighbridgeHeader, getWeighbridgeVehicledata } from "../API/api";
+import {
+  getWeighbridgeHeader,
+  getWeighbridgeVehicledata,
+  updateWeighbridgeData,
+} from "../API/api";
 const useWeighBridgeHooks = () => {
   const [weighbridgeHeader, setWeighbridgeHeader] = useState("");
   const [vehicleData, setVehicleData] = React.useState([]);
@@ -36,6 +40,19 @@ const useWeighBridgeHooks = () => {
       (currentPage - 1) * itemsPerPage,
       currentPage * itemsPerPage
     );
+
+  const updateWeighbridge = async (
+    WeighbridgeFieldConfigurations,
+    vehicleDataModelId,
+    id
+  ) => {
+    const response = await updateWeighbridgeData(
+      WeighbridgeFieldConfigurations,
+      vehicleDataModelId,
+      id
+    );
+    return response;
+  };
   useEffect(() => {
     const fetchData = async () => {
       const response = await getWeighbridgeVehicledata();
@@ -67,6 +84,7 @@ const useWeighBridgeHooks = () => {
     setCurrentPage,
     setSearchTerm,
     setWeighbridgeAction,
+    updateWeighbridge,
     weighbridgeHeader,
     vehicleData,
     totalPages,
