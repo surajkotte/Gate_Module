@@ -10,6 +10,7 @@ import SavedDrafts from "./Components/SavedDrafts/SavedDrafts.jsx";
 import { Toaster } from "./Components/ui/toaster";
 import { Toaster as Sonner } from "./Components/ui/sonner";
 import { TooltipProvider } from "./Components/ui/tooltip.jsx";
+import Analytics from "./Components/Analytics/Analytics.jsx";
 
 const routerProvider = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const routerProvider = createBrowserRouter([
       { path: "/consultation", element: <App /> },
       { path: "/admin", element: <Index /> },
       { path: "/saved-drafts", element: <SavedDrafts /> },
+      { path: "/analytics", element: <Analytics /> },
     ],
   },
 ]);

@@ -45,18 +45,29 @@ const Weighbridge = () => {
   } = useWeighBridgeHooks();
   const [dialogOpen, setDialogOpen] = useState("");
   const hasVehicleData = paginatedCourses && paginatedCourses.length > 0;
-  const getStatusBadge = (status) => {
-    const statusMap = {
-      1: { label: "Gate In", statusColor: "bg-primary" },
-      2: { label: "Gate Out", statusColor: "bg-destructive" },
-      3: { label: "In Progress", statusColor: "bg-yellow-500" },
-      4: { label: "Completed", statusColor: "bg-green-500" },
-    };
-    return (
-      <Badge className={`${statusMap[status]?.statusColor} border-0`}>
-        {statusMap[status]?.label || "Unknown"}
-      </Badge>
-    );
+  const getStatusColor = (value) => {
+    switch (value) {
+      case "with_po":
+        return "bg-secondary text-secondary-foreground";
+      case "without_po":
+        return "bg-warning text-warning-foreground";
+      case "other":
+        return "bg-muted text-muted-foreground";
+      default:
+        return "bg-muted text-muted-foreground";
+    }
+  };
+  const getValue = (value) => {
+    switch (value) {
+      case "with_po":
+        return "With purchase order";
+      case "without_po":
+        return "without purchase order";
+      case "other":
+        return "Other";
+      default:
+        return "vacant";
+    }
   };
 
   const getPriorityBadge = (priority) => {
@@ -71,7 +82,7 @@ const Weighbridge = () => {
   };
 
   return (
-    <Card className="mb-8 w-full max-w-7xl mx-auto">
+    <Card className="mb-8 w-full max-w-full mx-auto">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-enterprise-navy">
@@ -180,7 +191,13 @@ const Weighbridge = () => {
                                 : ""
                             }`}
                           >
-                            {field?.value || "-"}
+                            {field?.fieldType === "type" ? (
+                              <Badge className={getStatusColor(field?.value)}>
+                                {getValue(field?.value)}
+                              </Badge>
+                            ) : (
+                              field?.value || "-"
+                            )}
                           </TableCell>
                         );
                       })}

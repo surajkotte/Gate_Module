@@ -9,6 +9,8 @@ import {
   MessageSquareText,
   Eye,
   ExternalLink,
+  Calendar,
+  Truck,
 } from "lucide-react";
 import {
   Table,
@@ -18,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Pagination,
@@ -27,15 +30,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { fi } from "date-fns/locale/fi";
-import { ButtonIcon } from "@radix-ui/react-icons";
+import { Dialog } from "@/components/ui/dialog";
+
 import SavedDialog from "./SavedDialog";
 
 const SavedDrafts = () => {
@@ -49,8 +45,32 @@ const SavedDrafts = () => {
   const itemsPerPage = 10;
   const totalPages = 1; // Placeholder, replace with actual calculation
   const { savedDrafts, vehicleData } = useSavedDrafts();
+  const getStatusColor = (value) => {
+    switch (value) {
+      case "with_po":
+        return "bg-secondary text-secondary-foreground";
+      case "without_po":
+        return "bg-warning text-warning-foreground";
+      case "other":
+        return "bg-muted text-muted-foreground";
+      default:
+        return "bg-muted text-muted-foreground";
+    }
+  };
+  const getValue = (value) => {
+    switch (value) {
+      case "with_po":
+        return "With purchase order";
+      case "without_po":
+        return "without purchase order";
+      case "other":
+        return "Other";
+      default:
+        return "vacant";
+    }
+  };
   return (
-    <Card className="mb-8 w-full max-w-7xl mx-auto">
+    <Card className="mb-8 w-full max-w-full mx-auto">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-enterprise-navy">
@@ -160,7 +180,25 @@ const SavedDrafts = () => {
                               draft.id === "vehicle_number" ? "font-bold" : ""
                             }`}
                           >
-                            {field?.value || "-"}
+                            {field?.fieldType === "date" ? (
+                              <div className="flex items-center space-x-1">
+                                <Calendar className="w-4 h-4 text-muted-foreground" />
+                                <span className="text-sm">{field?.value}</span>
+                              </div>
+                            ) : field?.fieldName === "transporter_name" ? (
+                              <div className="flex items-center space-x-1">
+                                <Truck className="w-4 h-4 text-muted-foreground" />
+                                <span className="text-sm">{field?.value}</span>
+                              </div>
+                            ) : field?.fieldType === "type" ? (
+                              <Badge className={getStatusColor(field?.value)}>
+                                {getValue(field?.value)}
+                              </Badge>
+                            ) : (
+                              field?.value || ""
+                            )}
+
+                            {/* {field?.value || "-"} */}
                           </TableCell>
                         );
                       })}
