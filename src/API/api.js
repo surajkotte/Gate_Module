@@ -160,3 +160,16 @@ export const updateWeighbridgeData = async (data) => {
     return { messageType: "E", message: error?.message };
   }
 };
+
+export const getAnalytics = async () => {
+  try {
+    const response = await fetch(`${apiUrl}/analytics`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const responseData = response.json();
+    return responseData;
+  } catch (error) {}
+};
